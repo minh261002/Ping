@@ -2,7 +2,7 @@
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
     "paths": {
-      "@workspace/backend/*": ["./convex/*"]
+      "@workspace/backend/*": ["./*"]
     }
   },
   "include": ["."],

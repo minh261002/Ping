@@ -113,7 +113,10 @@ const DashboardSidebar = () => {
                     >
                       <Link
                         href={item.url}
-                        className={cn("flex items-center gap-2")}
+                        className={cn(
+                          isActive(item.url) &&
+                            "bg-gradient-to-b! from-sidebar-primary! to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
+                        )}
                       >
                         <item.icon className="size-4"></item.icon>
                         <span>{item.title}</span>
@@ -140,7 +143,10 @@ const DashboardSidebar = () => {
                     >
                       <Link
                         href={item.url}
-                        className={cn("flex items-center gap-2")}
+                        className={cn(
+                          isActive(item.url) &&
+                            "bg-gradient-to-b! from-sidebar-primary! to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
+                        )}
                       >
                         <item.icon className="size-4"></item.icon>
                         <span>{item.title}</span>
@@ -167,7 +173,10 @@ const DashboardSidebar = () => {
                     >
                       <Link
                         href={item.url}
-                        className={cn("flex items-center gap-2")}
+                        className={cn(
+                          isActive(item.url) &&
+                            "bg-gradient-to-b! from-sidebar-primary! to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!"
+                        )}
                       >
                         <item.icon className="size-4"></item.icon>
                         <span>{item.title}</span>

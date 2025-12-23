@@ -13,6 +13,14 @@ export default function Page() {
           <UserButton />
           <OrganizationSwitcher hidePersonal />
           <h1 className="text-2xl font-bold">Hello From app/web</h1>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+            onClick={async () => {
+              await addUser();
+            }}
+          >
+            Add User
+          </button>
           {JSON.stringify(useQuery(api.users.getMany))}
         </div>
       </div>

@@ -1,17 +1,8 @@
 import React from "react";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Auth",
-  description: "Authentication pages",
-};
+import AuthLayout from "@/modules/auth/ui/layouts/auth-layout";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="min-w-screen min-h-screen w-full h-full flex flex-col items-center justify-center">
-      {children}
-    </div>
-  );
+  return <AuthLayout>{children}</AuthLayout>;
 };
 
 export default Layout;

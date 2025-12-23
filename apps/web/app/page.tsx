@@ -1,12 +1,28 @@
-import { Button } from "@workspace/ui/components/button"
+"use client";
 
-export default function Page() {
+import React from "react";
+import { Unauthenticated, useMutation, useQuery } from "convex/react";
+import { api } from "@workspace/backend/_generated/api";
+import { Button } from "@workspace/ui/components/button";
+import { Authenticated } from "convex/react";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+
+const Page = () => {
+  const users = useQuery(api.users.getMany);
+  const addUser = useMutation(api.users.ad);
   return (
-    <div className="flex items-center justify-center min-h-svh">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Hello World</h1>
-        <Button size="sm">Button</Button>
-      </div>
+    <div>
+      <Authenticated>
+        {JSON.stringify(users, null, 2)}
+        <Button onClick={() => addUser()}>Create User</Button>
+        <UserButton />
+      </Authenticated>
+      <Unauthenticated>
+        <div>Please sign in to view users.</div>
+        <SignInButton>Sign In</SignInButton>
+      </Unauthenticated>
     </div>
-  )
-}
+  );
+};
+
+export default Page;

@@ -9,7 +9,6 @@ import {
   MicIcon,
   PaletteIcon,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -89,7 +88,9 @@ const DashboardSidebar = () => {
                     rootBox: "w-full! h-8!",
                     avatarBox: "size-4! rounded-sm!",
                     organizationSwitcherTrigger:
-                      "w-full! justify-start! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
+                      "w-full! justify-between! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! ",
+                    organizationSwitcherTriggerIcon:
+                      "group-data-[collapsible=icon]:hidden! text-end!",
                   },
                 }}
               />
@@ -211,6 +212,7 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 };

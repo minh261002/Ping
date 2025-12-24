@@ -7,18 +7,21 @@ import {
 } from "@workspace/ui/components/sidebar";
 import { cookies } from "next/headers";
 import DashboardSidebar from "../components/dashboard-sidebar";
+import { Provider } from "jotai/react";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
-  const cookeiStore = await cookies();
-  const defaultOpen = cookeiStore.get(SIDEBAR_COOKIE_NAME)?.value === "true";
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get(SIDEBAR_COOKIE_NAME)?.value === "true";
 
   return (
     <AuthGuard>
       <OrganizationGuard>
-        <SidebarProvider defaultOpen={defaultOpen}>
-          <DashboardSidebar />
-          <main className="flex flex-1 flex-col">{children}</main>
-        </SidebarProvider>
+        <Provider>
+          <SidebarProvider defaultOpen={defaultOpen}>
+            <DashboardSidebar />
+            <main className="flex flex-1 flex-col">{children}</main>
+          </SidebarProvider>
+        </Provider>
       </OrganizationGuard>
     </AuthGuard>
   );

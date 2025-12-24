@@ -1,23 +1,33 @@
 "use client";
 
-import WidgetFooter from "../components/widget-footer";
-import WidgetHeader from "../components/widget-header";
+import { useAtomValue } from "jotai";
+import WidgetAuthScreen from "@/modules/widget/ui/screens/widget-auth-screen";
+import { screenAtom } from "@/modules/widget/atoms/widget-atoms";
+import WidgetErrorScreen from "@/modules/widget/ui/screens/widget-error-screen";
+import WidgetLoadingScreen from "@/modules/widget/ui/screens/widget-loading-screen";
+import WidgetSelectionScreen from "@/modules/widget/ui/screens/widget-selection-screen";
+import WidgetChatScreen from "@/modules/widget/ui/screens/widget-chat-screen";
 
 interface Props {
   organizationId: string;
 }
 
 const WidgetView = ({ organizationId }: Props) => {
+  const screen = useAtomValue(screenAtom);
+  const screenComponents = {
+    error: <WidgetErrorScreen />,
+    loading: <WidgetLoadingScreen organizationId={organizationId} />,
+    auth: <WidgetAuthScreen />,
+    voice: <p>TODO Voice</p>,
+    inbox: <p>TODO Inbox</p>,
+    selection: <WidgetSelectionScreen />,
+    chat: <WidgetChatScreen />,
+    contact: <p>TODO Contact</p>,
+  };
+
   return (
     <main className="min-h-screen min-w-screen flex h-full w-full flex-col overflow-hidden rounded-xl border bg-muted">
-      <WidgetHeader>
-        <div className="flex flex-col justify-between gap-y-2 px-2 py-6">
-          <p className="text-3xl">Hi there!</p>
-          <p className="text-lg">How can we help you today?</p>
-        </div>
-      </WidgetHeader>
-      <div className="flex flex-1">Widget View: {organizationId}</div>
-      <WidgetFooter />
+      {screenComponents[screen]}
     </main>
   );
 };

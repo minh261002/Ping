@@ -6,6 +6,57 @@ import { components } from "../_generated/api";
 import { PaginationResult, paginationOptsValidator } from "convex/server";
 import { Doc } from "../_generated/dataModel";
 
+export const getOne = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (identity === null) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Identity not found",
+      });
+    }
+
+    const orgId = identity.orgId as string;
+    if (!orgId) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Organization not found",
+      });
+    }
+
+    const conversation = await ctx.db.get(args.conversationId);
+    if (!conversation) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Conversation not found",
+      });
+    }
+
+    if (conversation.organizationId !== orgId) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Invalid conversation",
+      });
+    }
+
+    const contactSession = await ctx.db.get(conversation.contactSessionId);
+    if (!contactSession || contactSession.expiresAt < Date.now()) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Contact session not found",
+      });
+    }
+
+    return {
+      ...conversation,
+      contactSession,
+    };
+  },
+});
+
 export const getMany = query({
   args: {
     paginationOpts: paginationOptsValidator,
@@ -91,43 +142,6 @@ export const getMany = query({
     return {
       ...conversations,
       page: validConversations,
-    };
-  },
-});
-
-export const getOne = query({
-  args: {
-    conversationId: v.id("conversations"),
-    contactSessionId: v.id("contactSessions"),
-  },
-  handler: async (ctx, args) => {
-    const session = await ctx.db.get(args.contactSessionId);
-    if (!session || session.expiresAt < Date.now()) {
-      throw new ConvexError({
-        code: "UNAUTHORIZED",
-        message: "Invalid contact session",
-      });
-    }
-
-    const conversation = await ctx.db.get(args.conversationId);
-    if (!conversation) {
-      throw new ConvexError({
-        code: "NOT_FOUND",
-        message: "Conversation not found",
-      });
-    }
-
-    if (conversation.contactSessionId !== args.contactSessionId) {
-      throw new ConvexError({
-        code: "UNAUTHORIZED",
-        message: "Invalid contact session",
-      });
-    }
-
-    return {
-      _id: conversation._id,
-      threadId: conversation.threadId,
-      status: conversation.status,
     };
   },
 });

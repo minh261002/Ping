@@ -3,6 +3,7 @@ import { WidgetScreen } from "../type";
 import { atomFamily, atomWithStorage } from "jotai/utils";
 import { CONTACT_SESSION_KEY } from "../constant";
 import { Id } from "@workspace/backend/_generated/dataModel";
+
 export const screenAtom = atom<WidgetScreen>("loading");
 
 export const errorMessageAtom = atom<string | null>(null);
@@ -13,4 +14,6 @@ export const organizationIdAtom = atom<string | null>(null);
 
 export const contactSessionIdAtomFamily = atomFamily((organizationId: string) => atomWithStorage<Id<"contactSessions">| null>(`${CONTACT_SESSION_KEY}_${organizationId}`, null));   
 
-export const contactSessionIdAtom = atomWithStorage("some_key", {"orgId": "..."});
+export const contactSessionIdAtom = atom<string |null>(null);
+
+export const conversationIdAtom = atom<Id<"conversations"> |null>(null);

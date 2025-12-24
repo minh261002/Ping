@@ -151,6 +151,7 @@ const WidgetChatScreen = () => {
             );
           })}
         </AIConversationContent>
+        <AIConversationScrollButton />
       </AIConversation>
 
       <Form {...form}>
